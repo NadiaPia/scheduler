@@ -3,59 +3,94 @@ import DayList from "components/DayList";
 import Appointment from "components/Appointment";
 import React, { Fragment, useState, useEffect } from "react";
 import axios from "axios";
-
-const appointments = {
-  "1": {
-    id: 1,
-    time: "12pm",
-  },
-  "2": {
-    id: 2,
-    time: "1pm",
-    interview: {
-      student: "Lydia Miller-Jones",
-      interviewer:{
-        id: 3,
-        name: "Sylvia Palmer",
-        avatar: "https://i.imgur.com/LpaY82x.png",
-      }
-    }
-  },
-  "3": {
-    id: 3,
-    time: "2pm",
-  },
-  "4": {
-    id: 4,
-    time: "3pm",
-    interview: {
-      student: "Archie Andrews",
-      interviewer:{
-        id: 4,
-        name: "Cohana Roy",
-        avatar: "https://i.imgur.com/FK8V841.jpg",
-      }
-    }
-  },
-  "5": {
-    id: 5,
-    time: "4pm",
-  }
-};
+import {
+  getAppointmentsForDay,
+  getInterview,
+  getInterviewersForDay,
+} from "helpers/selectors";
 
 
 export default function Application(props) {
-  const [day, setDay] = useState("Monday");
-  const [days, setDays] = useState([]);
+  const [state, setState] = useState({
+    day: "Monday",
+    days: [],
+    appointments: {},
+    interviewers: {},
+  });
 
+  const setDay = (day) => setState({ ...state, day });
+  const dailyAppointments = getAppointmentsForDay(state, state.day);
+  const interviewers = getInterviewersForDay(state, state.day);
+
+  function bookInterview(id, interview) {
+    
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };     
+      return axios.put(`/api/appointments/${id}`, {interview})      
+    .then(() => {      
+      setState({...state, appointments});      
+    });    
+  }
+
+  function cancelInterview (id) {
+    const deleteInterview = {
+      ...state.appointments[id],
+      interview: null
+    }
+    const appointments = {
+      ...state.appointments, 
+      [id]: deleteInterview
+    }
+    return axios.delete(`/api/appointments/${id}`)
+    .then(() => {      
+      setState({...state, appointments});
+    });   
+
+  }
+
+  const schedule = dailyAppointments.map((appointment) => {
+    
+    console.log("appointmenttttttttttttt", appointment);
+    const interview = getInterview(state, appointment.interview);
+
+    return (
+      <Appointment
+        key={appointment.id}
+        id={appointment.id}
+        time={appointment.time}
+        //student={student}
+        interview={interview}
+        //interviewer={interviewer}
+        interviewers={interviewers}
+        bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
+
+      />
+    );
+  });
+  //do request to the api for getting days and appointments and putting it to the setState----------------------
   useEffect(() => {
-    axios.get("/api/days").then(response => {
-      setDays([...response.data])
-      console.log("reeeesponse", response)
-      console.log("reeeesponse", response.data)
-    })
-
-  }, [])
+    Promise.all([
+      axios.get("/api/days"),
+      axios.get("/api/appointments"),
+      axios.get("/api/interviewers"),
+    ]).then((all) => {
+      //console.log(all[1].data)
+      setState((prev) => ({
+        ...prev,
+        days: all[0].data,
+        appointments: all[1].data,
+        interviewers: all[2].data,
+      }));
+    });
+  }, []);
+  //----------------------------------------------------------------------------
 
   return (
     <main className="layout">
@@ -67,7 +102,7 @@ export default function Application(props) {
         />
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
-          <DayList days={days} value={day} onChange={setDay} />
+          <DayList days={state.days} value={state.day} onChange={setDay} />
         </nav>
         <img
           className="sidebar__lhl sidebar--centered"
@@ -76,19 +111,8 @@ export default function Application(props) {
         />
       </section>
       <section className="schedule">
-        {Object.values(appointments).map(appointment => {
-          const { id, time, interview } = appointment;
-          const { student, interviewer } = interview || {};
-        return <Appointment 
-          key={id}
-          time={time}
-          student={student}
-          interview={interview}
-          interviewer={interviewer}
-        />
-      })
-      }
-      <Appointment key="last" time="5pm" />
+        {schedule}
+        <Appointment key="last" time="5pm" />
       </section>
     </main>
   );
