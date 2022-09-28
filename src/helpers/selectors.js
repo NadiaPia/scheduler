@@ -14,7 +14,8 @@ export function getAppointmentsForDay(state, day) {
   for(let app of apps) {
     result.push(state.appointments[app])
   }
-  console.log(filteredDays)
+  //console.log(filteredDays)
+  console.log("resultresultresultresultresultresultresultresult", result)
   return result
 }
 
