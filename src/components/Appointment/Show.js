@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function Show(props) {
-  console.log("studentstudentstudentstudentstudentstudentstudentstudent", props)
+  //console.log("studentstudentstudentstudentstudentstudentstudentstudent", props)
   //console.log("studentstudentstudentstudentstudentstudentstudentstudent", props.interviewer.name)
 
   return(

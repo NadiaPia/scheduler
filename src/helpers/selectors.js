@@ -15,7 +15,7 @@ export function getAppointmentsForDay(state, day) {
     result.push(state.appointments[app])
   }
   //console.log(filteredDays)
-  console.log("resultresultresultresultresultresultresultresult", result)
+  //console.log("resultresultresultresultresultresultresultresult", result)
   return result
 }
 
@@ -39,7 +39,7 @@ export function getInterviewersForDay(state, day) {
   }
   const filteredDays = state.days.filter(elem => elem.name === day);
   // console.log("++++++++++++++++++++++++++++++++++++++++", state.days)
-  console.log("++++++++++++++++++++++++++++++++++++++++", state, day)
+  //console.log("++++++++++++++++++++++++++++++++++++++++", state, day)
 
   if(filteredDays.length === 0) {
     return []
@@ -49,7 +49,7 @@ export function getInterviewersForDay(state, day) {
   for(let int of ints) {
     result.push(state.interviewers[int])
   }
-  console.log(filteredDays)
+  //console.log("filteredDays", filteredDays)
   return result
   
 }

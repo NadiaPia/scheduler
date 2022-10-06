@@ -1,7 +1,9 @@
 import "components/Application.scss";
 import DayList from "components/DayList";
 import Appointment from "components/Appointment";
-import React, { Fragment, useState, useEffect } from "react";
+import React from "react";
+//import React, { Fragment, useState, useEffect } from "react";
+
 import {
   getAppointmentsForDay,
   getInterview,
@@ -22,7 +24,7 @@ export default function Application(props) {
   const interviewers = getInterviewersForDay(state, state.day); 
   const schedule = dailyAppointments.map((appointment) => {
     
-    console.log("appointmenttttttttttttt", appointment);
+    //console.log("appointmenttttttttttttt", appointment);
     const interview = getInterview(state, appointment.interview);
 
     return (

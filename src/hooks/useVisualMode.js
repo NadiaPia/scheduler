@@ -1,8 +1,12 @@
-import React, {useState} from "react";
+//import React, {useState} from "react";
+import {useState} from "react";
+
 
 function useVisualMode (initial) {
   const[mode, setMode] = useState(initial);
+  //const [setHistory] = useState([initial]);
   const [history, setHistory] = useState([initial]);
+
 
   
   function transition(newMode, replace = false) {
@@ -23,7 +27,7 @@ function useVisualMode (initial) {
     
   }
 
-  return { mode, transition, back };
+  return { mode, transition, back, history };
 }
 
 
