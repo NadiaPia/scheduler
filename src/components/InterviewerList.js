@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 export default function InterviewerList(props) {
   const allInterviewers = props.interviewers;
-  console.log(allInterviewers)
+  //console.log(allInterviewers)
   const listInterviewers = allInterviewers.map((interviewer) =>
   <InterviewerListItem
       key={interviewer.id}      
