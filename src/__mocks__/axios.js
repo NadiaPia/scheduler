@@ -1,3 +1,4 @@
+//This file stores fake data - for imitation the server during the testing
 const fixtures = {
   days: [
     {

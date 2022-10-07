@@ -1,19 +1,18 @@
 describe("Appointments", () => {
   beforeEach(() => {
-    cy.request("GET", "/api/debug/reset");
-  
-    cy.visit("/");
-  
+    cy.request("GET", "/api/debug/reset");  
+    cy.visit("/");  
     cy.contains("Monday");
    });
-  it("should book an interview", () => {    
+
+  it("should book an interview", () => {
     cy.get("[alt=Add]")
       .first()
       .click();
     cy.get('[data-testid=student-name-input]')
       .type('Lydia Miller-Jones');
     cy.get("[alt='Sylvia Palmer']")
-      .click();     
+      .click();
     cy.contains("Save")
       .click();
     cy.request("GET", "/api/debug/reset");
@@ -24,33 +23,22 @@ describe("Appointments", () => {
   it("should edit an interview", () => {
     cy.get("[alt=Edit]")
       .first()
-      .click({ force: true });
-  
+      .click({ force: true });  
     cy.get("[data-testid=student-name-input]").clear().type("Lydia Miller-Jones");
-    cy.get("[alt='Tori Malcolm']").click();
-  
-    cy.contains("Save").click();
-  
+    cy.get("[alt='Tori Malcolm']").click();  
+    cy.contains("Save").click();  
     cy.contains(".appointment__card--show", "Lydia Miller-Jones");
     cy.contains(".appointment__card--show", "Tori Malcolm");
   });
 
   it("should cancel an interview", () => {
     cy.get("[alt=Delete]")
-      .click({ force: true });
-  
-    cy.contains("Confirm").click();
-  
+      .click({ force: true });  
+    cy.contains("Confirm").click();  
     cy.contains("Deleting").should("exist");
-    cy.contains("Deleting").should("not.exist");
-  
+    cy.contains("Deleting").should("not.exist");  
     cy.contains(".appointment__card--show", "Archie Cohen")
       .should("not.exist");
   });
 });
 
-/* Visits the root of our web server
-Clicks the edit button for the existing appointment
-Changes the name and interviewer
-Clicks the save button
-Sees the edit to the appointment*/

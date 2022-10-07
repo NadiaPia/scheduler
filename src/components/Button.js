@@ -1,14 +1,12 @@
 import React from "react";
 import "components/Button.scss";
 import classNames from "classnames"; 
-//classNames('foo', { bar: true }); // => 'foo bar'
-//classNames('foo', { bar: false }); // => 'foo'
 
 export default function Button(props) {
-   const buttonClass = classNames("button", {
-      "button--confirm": props.confirm,
-      "button--danger": props.danger
-    });
+  const buttonClass = classNames("button", {
+    "button--confirm": props.confirm,
+    "button--danger": props.danger
+  });
     
   return (
     <button
