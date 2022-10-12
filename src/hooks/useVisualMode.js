@@ -10,12 +10,12 @@ function useVisualMode(initial) {
     setMode(newMode);
   };
   function back() {
+    setMode(history[history.length-1]);
     setHistory(prev => {
       const newHistory = [...prev];
-      const newMode = newHistory.pop();
-      setMode(newMode);
+      newHistory.pop();
       return newHistory;
-    })    
+    })
   };
   return { mode, transition, back, history };
 }

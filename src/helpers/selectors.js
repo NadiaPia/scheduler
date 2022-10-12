@@ -1,5 +1,6 @@
-export function getAppointmentsForDay(state, day) {
-  //... returns an array of appointments for that day
+//... returns an array of appointments for that day
+export function getAppointmentsForDay(state, day) { 
+  
   if (state.days.length === 0) {
     return [];
   }
@@ -15,11 +16,11 @@ export function getAppointmentsForDay(state, day) {
   return result;
 }
 
+//returns an object with full student and interviewer data
 export function getInterview(state, interview) {
   if (!interview) {
     return null;
-  }
-  //console.log(interview);
+  }  
   const id = interview.interviewer;
   const interviewer = state.interviewers[id];
   return {
@@ -28,8 +29,8 @@ export function getInterview(state, interview) {
   };
 }
 
+//... returns an array of available interviewers for that day
 export function getInterviewersForDay(state, day) {
-  //... returns an array of appointments for that day
   if (state.days.length === 0) {
     return [];
   }
